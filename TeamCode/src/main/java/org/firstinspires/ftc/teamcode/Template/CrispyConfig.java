@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.Template;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
@@ -53,11 +54,14 @@ public class CrispyConfig {
     /* Public OpMode members. */
 
 
+    public DcMotor LeftMotor;
+    public DcMotor RightMotor;
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
-
-
+    public void init(HardwareMap hardwareMap) {
+        LeftMotor = hardwareMap.get(DcMotor.class, "leftdrive");
+        LeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        RightMotor = hardwareMap.get(DcMotor.class, "rightdrive");
     }
 }
 
