@@ -57,11 +57,14 @@ public class Configure{
     public DcMotor LeftMotor;
     public DcMotor RightMotor;
 
+    HardwareMap hwMap = null;
+
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hardwareMap) {
-        LeftMotor = hardwareMap.get(DcMotor.class, "leftdrive");
+        hwMap = hardwareMap;
+        LeftMotor = hwMap.get(DcMotor.class, "leftdrive");
         LeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RightMotor = hardwareMap.get(DcMotor.class, "rightdrive");
+        RightMotor = hwMap.get(DcMotor.class, "rightdrive");
     }
 }
 

@@ -32,6 +32,8 @@ package org.firstinspires.ftc.teamcode.Template;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -39,9 +41,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @TeleOp(name = "Template", group = "Temp")
 
 public class Drive extends LinearOpMode {
-
-    /* Declare OpMode members. */
-    private Configure robot = new Configure();   // Use a Pushbot's hardware
 
 
 
@@ -52,7 +51,10 @@ public class Drive extends LinearOpMode {
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
+
+        DcMotor LeftMotor = hardwareMap.get(DcMotor.class, "leftdrive");
+        LeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        DcMotor RightMotor = hardwareMap.get(DcMotor.class, "rightdrive");
 
 
         // Send telemetry message to signify robot waiting;
@@ -70,8 +72,8 @@ public class Drive extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            robot.LeftMotor.setPower(gamepad1.right_trigger-gamepad1.left_trigger+gamepad1.right_stick_x);
-            robot.RightMotor.setPower(gamepad1.right_trigger-gamepad1.left_trigger-gamepad1.right_stick_x);
+            LeftMotor.setPower(gamepad1.right_trigger-gamepad1.left_trigger+gamepad1.right_stick_x);
+            RightMotor.setPower(gamepad1.right_trigger-gamepad1.left_trigger-gamepad1.right_stick_x);
 
             drive.setValue(gamepad1.right_trigger);
 
