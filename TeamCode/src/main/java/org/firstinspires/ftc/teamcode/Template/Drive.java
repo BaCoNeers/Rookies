@@ -49,30 +49,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Drive extends LinearOpMode{
 
-    //declar varables
-    double EncoderFull = 1440f;
-    double DiameterCM = 10.5f;
-    double DiameterRobotCM = 37f;
+    Configure Robot = new Configure();
 
-    double circumference;
-    double circumferenceRobot;
-    double OneDeg;
-    double distance;
+
 
     float LeftMotorPower;
     float RightMotorPower;
-
-    Orientation angle;
-
-    DcMotor LeftMotor;
-    DcMotor RightMotor;
-
-    BNO055IMU IMU;
-
-    BNO055IMU.Parameters Parameters = new BNO055IMU.Parameters();
-
-
-
 
 
     @Override
@@ -82,28 +64,10 @@ public class Drive extends LinearOpMode{
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
-        LeftMotor = hardwareMap.get(DcMotor.class, "leftdrive");
-        RightMotor = hardwareMap.get(DcMotor.class, "rightdrive");
-
-        LeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        LeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        Parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        Parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        Parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        Parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        IMU = hardwareMap.get(BNO055IMU.class,"IMU");
-        IMU.initialize(Parameters);
 
 
-        circumference = (double) (2*DiameterCM*Math.PI);
-        circumferenceRobot = (double) (2*DiameterRobotCM*Math.PI);
-        OneDeg = circumferenceRobot/360;
-        distance = circumference*EncoderFull;
+
+
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
@@ -123,57 +87,11 @@ public class Drive extends LinearOpMode{
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-
-
-            //LeftEncoder.setValue(LeftMotor.getCurrentPosition());
-            //RightEncoder.setValue(RightMotor.getCurrentPosition());
-            angle = IMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-            IMUAngle.setValue(angle.thirdAngle);
-
-            Turn(90);
-
-
             telemetry.update();
         }
 
     }
 
-    public boolean Forward(float distance){
-        LeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        if((LeftMotor.getCurrentPosition()+RightMotor.getCurrentPosition())/2 < distance){
-            SetMotors(0.5f,0.5f);
-        }
-        else if ((LeftMotor.getCurrentPosition()+RightMotor.getCurrentPosition())/2 > distance){
-            SetMotors(-0.5f,-0.5f);
-        }
-        else{
-            SetMotors(0,0);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean Turn(float degree){
-        if(angle.thirdAngle < degree){
-            SetMotors(0.5f,-0.5f);
-        }
-        else if(angle.thirdAngle > degree){
-            SetMotors(-0.5f,0.5f);
-        }
-        else{
-            SetMotors(0,0);
-            return true;
-        }
-        return false;
-    }
-
-    public void SetMotors(float Left,float Right){
-        //LeftMotorTelemety.setValue(Left);
-        //RightMotorTelemetry.setValue(Right);
-        LeftMotor.setPower(Left);
-        RightMotor.setPower(Right);
-    }
 }
 
 

@@ -53,6 +53,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Configure{
     /* Public OpMode members. */
 
+    //declar varables
+    double EncoderFull = 1440f;
+    double DiameterCM = 10.5f;
+    double DiameterRobotCM = 37f;
+
+    double Circumference;
+    double CircumferenceRobot;
+    double OneDeg;
+    double Distance;
+
 
     public DcMotor LeftMotor;
     public DcMotor RightMotor;
@@ -61,10 +71,21 @@ public class Configure{
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap hardwareMap) {
+
+        Circumference = (double) (2*DiameterCM*Math.PI);
+        CircumferenceRobot = (double) (2*DiameterRobotCM*Math.PI);
+        OneDeg = CircumferenceRobot/360;
+        Distance = Circumference*EncoderFull;
+
         hwMap = hardwareMap;
         LeftMotor = hwMap.get(DcMotor.class, "leftdrive");
         LeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RightMotor = hwMap.get(DcMotor.class, "rightdrive");
+
+        LeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
 
