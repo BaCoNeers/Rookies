@@ -37,6 +37,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -45,40 +47,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-@Autonomous(name = "Template", group = "Temp")
+@TeleOp(name = "Template", group = "Temp")
 
 public class Drive extends LinearOpMode{
 
-    Configure Robot = new Configure();
 
-
-
-    float LeftMotorPower;
-    float RightMotorPower;
+    DcMotor LiftMotor = null;
 
 
     @Override
     public void runOpMode() {
 
-
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-
-
-
-
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver");    //
-        telemetry.setAutoClear(false);
-        Telemetry.Item LeftEncoder = telemetry.addData("Left Encoder", "%12.3f", 0.0);
-        Telemetry.Item RightEncoder = telemetry.addData("Right Encoder: ","%12.3f",0);
-        //Telemetry.Item LeftMotorTelemety = telemetry.addData("Left Motor Power: ","%12.3f",0);
-        //Telemetry.Item RightMotorTelemetry = telemetry.addData("Right Motor Power: ","%12.3f",0);
-        Telemetry.Item IMUAngle = telemetry.addData("IMU Angle: ","%12.3f",0);
-
-
+        LiftMotor = hardwareMap.get(DcMotor.class, "LiftMotor");
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -86,6 +66,7 @@ public class Drive extends LinearOpMode{
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            LiftMotor.setPower(gamepad1.left_stick_y);
 
             telemetry.update();
         }
