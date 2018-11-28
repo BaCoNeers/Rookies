@@ -57,13 +57,9 @@ public class CrispyDrive extends LinearOpMode {
          */
         robot.init(hardwareMap);
 
-        ForwardPower = gamepad1.right_trigger-gamepad1.left_trigger;
-        TurnPower = gamepad1.right_stick_x;
-
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
         telemetry.setAutoClear(false);
-        Telemetry.Item drive = telemetry.addData("ForwardPower", "%12.3f", 0.0);
         telemetry.update();
 
 
@@ -75,9 +71,7 @@ public class CrispyDrive extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            drive.setValue(ForwardPower);
-            robot.LeftMotor.setPower(ForwardPower+TurnPower);
-            robot.RightMotor.setPower(ForwardPower-TurnPower);
+            robot.LiftMotor.setPower(gamepad1.left_stick_y);
 
         }
     }
